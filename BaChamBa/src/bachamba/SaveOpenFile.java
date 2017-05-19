@@ -5,16 +5,30 @@
  */
 package bachamba;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
+
 /**
  *
  * @author Minh Tri
  */
-public class MainFrame extends javax.swing.JFrame {
+public class SaveOpenFile extends javax.swing.JFrame {
 
     /**
      * Creates new form MainFrame
      */
-    public MainFrame() {
+    public SaveOpenFile() {
         initComponents();
     }
 
@@ -42,14 +56,11 @@ public class MainFrame extends javax.swing.JFrame {
         btnLuu = new javax.swing.JButton();
         btnSua = new javax.swing.JButton();
         btnXoa = new javax.swing.JButton();
-        autionMa = new javax.swing.JLabel();
-        autionTen = new javax.swing.JLabel();
-        autionNgaySinh = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane4 = new javax.swing.JScrollPane();
         TableDS = new javax.swing.JTable();
-        btnFile = new javax.swing.JButton();
-        btnCSDL = new javax.swing.JButton();
+        btnMoFile = new javax.swing.JButton();
+        btnLuuFile = new javax.swing.JButton();
         btnThoat = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -80,6 +91,11 @@ public class MainFrame extends javax.swing.JFrame {
 
         btnThem.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btnThem.setText("THÊM");
+        btnThem.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnThemMouseClicked(evt);
+            }
+        });
 
         btnLuu.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btnLuu.setText("LƯU");
@@ -88,19 +104,20 @@ public class MainFrame extends javax.swing.JFrame {
         btnSua.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btnSua.setText("SỬA");
         btnSua.setEnabled(false);
+        btnSua.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnSuaMouseClicked(evt);
+            }
+        });
 
         btnXoa.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btnXoa.setText("XÓA");
         btnXoa.setEnabled(false);
-
-        autionMa.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
-        autionMa.setForeground(new java.awt.Color(255, 0, 0));
-
-        autionTen.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
-        autionTen.setForeground(new java.awt.Color(255, 0, 0));
-
-        autionNgaySinh.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
-        autionNgaySinh.setForeground(new java.awt.Color(255, 0, 0));
+        btnXoa.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnXoaMouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -115,27 +132,22 @@ public class MainFrame extends javax.swing.JFrame {
                     .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(36, 36, 36)
-                        .addComponent(btnLuu, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(36, 36, 36)
-                        .addComponent(btnSua, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(35, 35, 35)
-                        .addComponent(btnXoa, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(106, Short.MAX_VALUE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(autionMa)
-                            .addComponent(autionTen)
-                            .addComponent(autionNgaySinh))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGap(26, 26, 26)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jScrollPane1)
                             .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 262, Short.MAX_VALUE)
                             .addComponent(jScrollPane3))
                         .addGap(18, 18, 18)
                         .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addContainerGap())))
+                        .addContainerGap())
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(36, 36, 36)
+                        .addComponent(btnLuu, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(36, 36, 36)
+                        .addComponent(btnSua, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(35, 35, 35)
+                        .addComponent(btnXoa, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(71, Short.MAX_VALUE))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -147,20 +159,14 @@ public class MainFrame extends javax.swing.JFrame {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                        .addComponent(jLabel1)
-                                        .addComponent(autionMa))
+                                    .addComponent(jLabel1)
                                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(18, 18, 18)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(jLabel2)
-                                    .addComponent(autionTen)))
+                                .addComponent(jLabel2))
                             .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(jLabel3)
-                                .addComponent(autionNgaySinh))
+                            .addComponent(jLabel3)
                             .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -190,6 +196,11 @@ public class MainFrame extends javax.swing.JFrame {
                 return types [columnIndex];
             }
         });
+        TableDS.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                TableDSMouseClicked(evt);
+            }
+        });
         jScrollPane4.setViewportView(TableDS);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
@@ -206,16 +217,21 @@ public class MainFrame extends javax.swing.JFrame {
             .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 181, Short.MAX_VALUE)
         );
 
-        btnFile.setFont(new java.awt.Font("Times New Roman", 1, 24)); // NOI18N
-        btnFile.setText("File");
-        btnFile.addMouseListener(new java.awt.event.MouseAdapter() {
+        btnMoFile.setFont(new java.awt.Font("Times New Roman", 1, 24)); // NOI18N
+        btnMoFile.setText("Mở File");
+        btnMoFile.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btnFileMouseClicked(evt);
+                btnMoFileMouseClicked(evt);
             }
         });
 
-        btnCSDL.setFont(new java.awt.Font("Times New Roman", 1, 24)); // NOI18N
-        btnCSDL.setText("CSDL");
+        btnLuuFile.setFont(new java.awt.Font("Times New Roman", 1, 24)); // NOI18N
+        btnLuuFile.setText("Lưu File");
+        btnLuuFile.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnLuuFileMouseClicked(evt);
+            }
+        });
 
         btnThoat.setFont(new java.awt.Font("Times New Roman", 1, 24)); // NOI18N
         btnThoat.setText("Thoát");
@@ -233,10 +249,10 @@ public class MainFrame extends javax.swing.JFrame {
                 .addGap(31, 31, 31)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(btnFile, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(31, 31, 31)
-                        .addComponent(btnCSDL)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 271, Short.MAX_VALUE)
+                        .addComponent(btnMoFile)
+                        .addGap(33, 33, 33)
+                        .addComponent(btnLuuFile)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 191, Short.MAX_VALUE)
                         .addComponent(btnThoat))
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                         .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -252,8 +268,8 @@ public class MainFrame extends javax.swing.JFrame {
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnFile)
-                    .addComponent(btnCSDL)
+                    .addComponent(btnMoFile)
+                    .addComponent(btnLuuFile)
                     .addComponent(btnThoat))
                 .addContainerGap(26, Short.MAX_VALUE))
         );
@@ -262,15 +278,204 @@ public class MainFrame extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnFileMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnFileMouseClicked
-        // TODO add your handling code here:
-        new SaveOpenFile().setVisible(true);
-    }//GEN-LAST:event_btnFileMouseClicked
-
     private void btnThoatMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnThoatMouseClicked
         // TODO add your handling code here:
         System.exit(0);
     }//GEN-LAST:event_btnThoatMouseClicked
+    private static int So_dong = 0;
+    private static int So_cot = 0;
+    private void btnThemMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnThemMouseClicked
+        // TODO add your handling code here:
+        if(btnThem.getText().equals("THÊM"))
+        {
+            if(KiemTra.ThucHien_KT_Trong(txtMa.getText(), txtTen.getText(), txtNgaySinh.getText()) == true)
+            {
+                JOptionPane.showMessageDialog(null, "Mã Sinh Viên, Tên, Ngày Sinh không được để trống..!!!Vui lòng điền đầy đủ thông tin");
+            }
+            if(KiemTra.ThucHien_KT_Ngay(txtNgaySinh.getText()) == false) //  Kiem Tra Ngay Sinh
+            {
+                JOptionPane.showMessageDialog(null, "Ngày Sinh không đúng định dạng !!! Ví dụ: 9/29/1987");
+            }
+            else
+            {
+    //            String data[] = {txtMa.getText(), txtTen.getText(), txtNgaySinh.getText()};
+                int lc = 1;
+                for(int i = 0; i < So_dong-1; i++)
+                {
+                    Object o = TableDS.getValueAt(i, 0);
+                    if(txtMa.getText().equals(o.toString()))
+                    {
+                        JOptionPane.showMessageDialog(null, "Mã sinh viên: "+txtMa.getText()+" này đã tồn tại bạn vui lòng nhập mã sinh viên khác");
+                        lc = 0;
+                    }
+                }
+                if(lc == 1)
+                {
+                    DefaultTableModel model =  (DefaultTableModel) TableDS.getModel();
+                    model.addRow(new Object[]{txtMa.getText(), txtTen.getText(), txtNgaySinh.getText()});
+                    btnLuu.setEnabled(true);
+                    So_dong++;
+                    So_cot++;
+                    btnThem.setText("HỦY");
+                }
+            }
+            
+            btnSua.setEnabled(true);
+            btnXoa.setEnabled(true);
+        }
+        else
+        {
+            txtMa.setText("");
+            txtTen.setText("");
+            txtNgaySinh.setText("");
+            btnThem.setText("THÊM");
+        }
+        
+    }//GEN-LAST:event_btnThemMouseClicked
+    private static int row;
+    private void TableDSMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TableDSMouseClicked
+        // TODO add your handling code here:
+        btnSua.setEnabled(true);
+        row = TableDS.getSelectedRow();      
+        txtMa.setText(TableDS.getValueAt(row, 0).toString());
+        txtTen.setText(TableDS.getValueAt(row, 1).toString());
+        txtNgaySinh.setText(TableDS.getValueAt(row, 2).toString());
+    }//GEN-LAST:event_TableDSMouseClicked
+
+    private void btnSuaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSuaMouseClicked
+        // TODO add your handling code here:
+        if(TableDS.getSelectedRow() == -1)
+        {
+            JOptionPane.showMessageDialog(null, "Bạn vui lòng chọn sinh viên trong danh sách sinh viên");
+        }
+        else
+        {
+            TableDS.setValueAt(txtMa.getText(), row, 0);
+            TableDS.setValueAt(txtTen.getText(), row, 1);
+            TableDS.setValueAt(txtNgaySinh.getText(), row, 2);
+            
+        }
+        
+    }//GEN-LAST:event_btnSuaMouseClicked
+
+    private void btnXoaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnXoaMouseClicked
+        // TODO add your handling code here:
+        if(TableDS.getSelectedRow() == -1)
+        {
+            JOptionPane.showMessageDialog(null, "Bạn vui lòng chọn sinh viên trong danh sách sinh viên");
+        }
+        else
+        {
+            Object[] options = { "+ Có +", "+ Không +" };
+            int choice = JOptionPane.showOptionDialog(null, "Bạn chắc chắn muốn xóa sinh viên "+TableDS.getValueAt(row, 1).toString()+" này chứ ?", "Cảnh báo", WIDTH, HEIGHT, null, options, options[0]);
+            if(choice == 0)
+            {
+                DefaultTableModel model =  (DefaultTableModel) TableDS.getModel();
+                model.removeRow(row);
+            }
+        }
+    }//GEN-LAST:event_btnXoaMouseClicked
+
+    private void btnLuuFileMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnLuuFileMouseClicked
+        // TODO add your handling code here:
+        int choice = 0;
+            while(choice == 0)
+            {
+        JFileChooser c = new JFileChooser();
+        int rVal = c.showSaveDialog(null);
+        if (rVal == JFileChooser.APPROVE_OPTION) 
+        {
+            
+                String filename = c.getSelectedFile().getName();
+                String dir = c.getCurrentDirectory().toString();
+
+                java.io.File file = new java.io.File(dir+"\\"+filename+".txt");
+                
+                if(file.exists())
+                {
+                    Object[] options = { "+ OK +", "+ Cancel +" };
+                    choice = JOptionPane.showOptionDialog(null, "File: "+filename+".txt đã tồn tại. Bạn có muốn ghi đè lên file này không","Cảnh báo", WIDTH, HEIGHT, null, options, options[0]);               
+                }
+                if(choice == 0)
+                {
+                    try 
+                    {
+                        file.createNewFile();
+                    } 
+                    catch (IOException ex) 
+                    {
+                        Logger.getLogger(SaveOpenFile.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+
+                    FileWriter writer; 
+                    try 
+                    {
+                        writer = new FileWriter(file);
+                        for(int i = 0; i < So_dong; i++)
+                        {
+                            //Object o = TableDS.getValueAt(i, 0);
+                            writer.write(TableDS.getValueAt(i, 0).toString()+" ");
+                            writer.write(TableDS.getValueAt(i, 1).toString()+" ");
+                            writer.write(TableDS.getValueAt(i, 2).toString()+"\r\n");
+                            
+                        }
+                        JOptionPane.showMessageDialog(null, "Ghi file: "+filename+".txt thành công !");
+                        writer.flush();
+                        writer.close();  
+                        choice = 1;
+                    } 
+                    catch (IOException ex) 
+                    {
+                        Logger.getLogger(SaveOpenFile.class.getName()).log(Level.SEVERE, null, ex);
+                    }           
+                }
+                else
+                    choice = 0;
+            }
+            else
+                c.setVisible(false);
+        }        
+    }//GEN-LAST:event_btnLuuFileMouseClicked
+
+    private void btnMoFileMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnMoFileMouseClicked
+        // TODO add your handling code here:
+        JFileChooser c = new JFileChooser();
+        int rVal = c.showOpenDialog(null);
+        
+        if (rVal == JFileChooser.APPROVE_OPTION) 
+        {
+            String filename = c.getSelectedFile().getName();
+            String dir = c.getCurrentDirectory().toString();
+            //System.out.print(filename+" - "+dir);
+            File file = new File(dir+"\\"+filename);
+            try {
+                file.createNewFile();
+            } catch (IOException ex) {
+                Logger.getLogger(SaveOpenFile.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            FileInputStream fis;
+            try {
+                fis = new FileInputStream(file);
+                BufferedReader br = new BufferedReader(new InputStreamReader(fis));
+                String line;
+
+                while ((line = br.readLine()) != null) {
+                    //
+                    String rd[] = line.split(" ");
+                    DefaultTableModel model =  (DefaultTableModel) TableDS.getModel();
+                    model.addRow(new Object[]{rd[0], rd[1], rd[2]});
+                    
+                }     
+            } catch (FileNotFoundException ex) {
+                Logger.getLogger(SaveOpenFile.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (IOException ex) {
+                Logger.getLogger(SaveOpenFile.class.getName()).log(Level.SEVERE, null, ex);
+            }
+                      
+        }
+       
+        
+    }//GEN-LAST:event_btnMoFileMouseClicked
 
     /**
      * @param args the command line arguments
@@ -302,19 +507,16 @@ public class MainFrame extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new MainFrame().setVisible(true);
+                new SaveOpenFile().setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTable TableDS;
-    private javax.swing.JLabel autionMa;
-    private javax.swing.JLabel autionNgaySinh;
-    private javax.swing.JLabel autionTen;
-    private javax.swing.JButton btnCSDL;
-    private javax.swing.JButton btnFile;
     private javax.swing.JButton btnLuu;
+    private javax.swing.JButton btnLuuFile;
+    private javax.swing.JButton btnMoFile;
     private javax.swing.JButton btnSua;
     private javax.swing.JButton btnThem;
     private javax.swing.JButton btnThoat;
